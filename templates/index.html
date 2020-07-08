@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" /> -->
+
+ <!--    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/components/dropdown.min.js"></script>
+
+	<link rel="stylesheet" href="static/css/main.css">
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.4/d3.layout.cloud.js"></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+	<!-- JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	
+
+</head>
+<body>
+
+	<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white">
+		<a class="navbar-brand" stylesheet href="#">DASHBOARD</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
+    
+    <select name="skills" multiple="" class="ui fluid dropdown">
+	<option value="">Skills</option>
+	<option value="angular">Angular</option>
+	<option value="css">CSS</option>
+	<option value="design">Graphic Design</option>
+	<option value="ember">Ember</option>
+	<option value="html">HTML</option>
+	<option value="ia">Information Architecture</option>
+	<option value="javascript">Javascript</option>
+	<option value="mech">Mechanical Engineering</option>
+	<option value="meteor">Meteor</option>
+	<option value="node">NodeJS</option>
+	<option value="plumbing">Plumbing</option>
+	<option value="python">Python</option>
+	<option value="rails">Rails</option>
+	<option value="react">React</option>
+	<option value="repair">Kitchen Repair</option>
+	<option value="ruby">Ruby</option>
+	<option value="ui">UI Design</option>
+	<option value="ux">User Experience</option>
+</select>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="ol-sm-4">
+				<div class="chart" id="bargraph1">
+					<div>
+						<script>
+
+							var word_freqs = {{ word_freqs|safe }};
+							max_freq = {{ max_freq }};
+							fill = d3.scale.category20();
+							layout = d3.layout.cloud()
+							.size([500, 300])
+							.words(word_freqs)
+							.padding(5)
+							.rotate(0)
+							.font("Impact")
+							.fontSize(function(d) {
+								return (d.size/max_freq)*100;
+							})
+							.on("end", draw);
+
+							layout.start();
+
+							function draw(words) {
+								d3.select("#bargraph1").append("svg")
+								.attr("width", layout.size()[0])
+								.attr("height", layout.size()[1])
+								.attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
+								.append("g")
+								.attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+								.selectAll("text")
+								.data(words)
+								.enter().append("text")
+								.style("font-size", function(d) { return d.size + "px"; })
+								.style("font-family", "Impact")
+								.style("fill", function(d, i) { return fill(i); })
+								.attr("text-anchor", "middle")
+								.attr("transform", function(d) {
+									return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+								})
+								.text(function(d) { return d.text; });
+							}
+						</script>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="ol-sm-4">
+				<div class="chart" id="bargraph">
+					<script class="sc">
+						var graphs = {{plot | safe}};
+						Plotly.plot('bargraph',graphs,{});
+					</script>
+
+				</div>
+
+			</div>
+			<div class="ab">
+				<div class="row1"></div>
+				<div class="row1"></div>
+
+
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+
+<p class="py-5 text-center">This example creates a full page background image. Try to resize the browser window to see how it always will cover the full screen (when scrolled to top), and that it scales nicely on all screen sizes.</p>
+
+<script> $(document).ready(function() {
+	$('.ui.dropdown').dropdown(); 
+}
+</script>
+
+    </div><select name="gender" class="ui dropdown" id="select">
+  <option value="">Gender</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+</select>
+
+<script type="text/javascript"> $('#select').dropdown(); </script>
+
+
+</body>
+</html>
