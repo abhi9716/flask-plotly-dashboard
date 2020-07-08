@@ -1,178 +1,120 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>My First Dashboard</title>
-    <link rel="stylesheet" href="static/css/main.css">
+  <meta charset="UTF-8">
+  <title>My First Dashboard</title>
+  <link rel="stylesheet" href="static/css/main.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" />
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
 
-    <link rel="stylesheet" href="static/css/main.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.4/d3.layout.cloud.js"></script>
+  <link rel="stylesheet" href="static/css/main.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.4/d3.layout.cloud.js"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 
 </head>
 <body>
 
 
-    <div class="topnav">
-      <a id="head">DASHBOARD</a>
+  <div class="topnav">
+    <a id="head">DASHBOARD</a>
   </div>
 
 
 
   <div class="ui three container">
     <div class="row">
-        <div class="drop">
-            <select name="gender" class="ui dropdown" id="select">
-              <option value="">Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-          </select>
 
-          <script> $('#select').dropdown(); </script>
-
-
-      </div>
       <div class="drop">
-        <form action="/" name="add" method="post">
-            <select onchange="myFunction()" name="gender" class="ui dropdown" id="select1">
-                {% for list in my_list%}
-                <option value={{list}}>{{list}}</option>
-                {% endfor %}
-            </select>
-        </form>
+        <select name="gender" class="ui dropdown" id="select">
+          <option value="">Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <script> $('#select').dropdown(); </script>
+      </div>
 
+      <div class="drop">
+        <select onchange="myFunction()" name="gender" class="ui dropdown" id="select1">
+          {% for list in my_list%}
+          <option value={{list}}>{{list}}</option>
+          {% endfor %}
+        </select>
         <script> $('#select1').dropdown(); </script>
-    </div>
+      </div>
+    </div>   
+  </div>
 
-
-</div>   
-</div>
-
-
-
-
-
-
-<div class="ui fluid container">
-  <div class="row">
-    <div class="ol-sm-4">
+  <div class="ui fluid container">
+    <div class="row">
+      <div class="box">
         <div class="chart" id="bargraph1">
-            <div>
-                <script type="text/javascript">
-
-                    var data = { word_freqs:{{word_freqs|safe}}, max_freq:{{max_freq|safe}} }
-
-                    console.log(data)
-                    
-
-
-
-                    
-                    var word_freqs = data["word_freqs"];
-                    max_freq = data["max_freq"];
-                    fill = d3.scale.category20();
-                    layout = d3.layout.cloud()
-                    .size([500, 300])
-                    .words(word_freqs)
-                    .padding(5)
-                    .rotate(0)
-                    .font("Impact")
-                    .fontSize(function(d) {
-                        return (d.size/max_freq)*100;
-                    })
-                    .on("end", draw);
-
-                    layout.start();
-
-                    function draw(words) {
-                        document.getElementById("bargraph1").innerHTML = ""
-
-
-                        d3.select("#bargraph1").append("svg")
-                        .attr("width", layout.size()[0])
-                        .attr("height", layout.size()[1])
-                        .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
-                        .append("g")
-                        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-                        .selectAll("text")
-                        .data(words)
-                        .enter().append("text")
-                        .style("font-size", function(d) { return d.size + "px"; })
-                        .style("font-family", "Impact")
-                        .style("fill", function(d, i) { return fill(i); })
-                        .attr("text-anchor", "middle")
-                        .attr("transform", function(d) {
-                            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                        })
-                        .text(function(d) { return d.text; });
-                    }
-
-
-                </script>
-            </div>
-
         </div>
-
-    </div>
-    <div class="ol-sm-4">
+      </div>
+      <div class="box">
         <div class="chart" id="bargraph">
-            <script class="sc">
-                var graphs = {{plot | safe}};
-                Plotly.plot('bargraph',graphs,{});
-            </script>
-
         </div>
-
+      </div>
     </div>
+  </div>
 
-</div>
+  <script>
 
-</div>
-
-
-
-<script type="text/javascript">
-    // $(document).ready(function(){
-
-    //     $('#select1').on('change',function(event){
-
-    //         $.ajax({
-    //             url: "http://127.0.0.1:5001/bar",
-    //             type: "POST",
-    //             data: {'selected': document.getElementById('select1').value}
-    //               })
-
-
-    
-
-    //                                             })
-    //                             })
-
-
-    
+    var data = { word_freqs:{{word_freqs|safe}}, max_freq:{{max_freq|safe}} }
+    console.log(data)
+    var word_freqs = data["word_freqs"];
+    max_freq = data["max_freq"];
+    fill = d3.scale.category20();
+    layout = d3.layout.cloud()
+    .size([500, 300])
+    .words(word_freqs)
+    .padding(5)
+    .rotate(0)
+    .font("Impact")
+    .fontSize(function(d) {
+      return (d.size/max_freq)*100;
+    })
+    .on("end", draw);
+    layout.start();
+    function draw(words) {
+      document.getElementById("bargraph1").innerHTML = ""
+      d3.select("#bargraph1").append("svg")
+      .attr("width", layout.size()[0])
+      .attr("height", layout.size()[1])
+      .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
+      .append("g")
+      .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+      .selectAll("text")
+      .data(words)
+      .enter().append("text")
+      .style("font-size", function(d) { return d.size + "px"; })
+      .style("font-family", "Impact")
+      .style("fill", function(d, i) { return fill(i); })
+      .attr("text-anchor", "middle")
+      .attr("transform", function(d) {
+        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+      })
+      .text(function(d) { return d.text; });
+    }
+  </script>
+  <script>
     async function myFunction() {
-
-
-
       var name = document.getElementById("select1");
       var entry = {
         name : name.value
-    };
-    
-    const response = await fetch(`${window.origin}/bar`,{
+      };
+
+      const response = await fetch(`${window.origin}/bar`,{
         method: "POST",
         credentials: "include",
         body: JSON.stringify(entry),
@@ -180,71 +122,66 @@
         headers: new Headers({
 
           "content-type": "application/json"
-
+        })
       })
 
-
-    })
-
-    .then(async function(response) {
+      .then(async function(response) {
         if (response.status !== 200) {
           console.log('Looks like there was a problem. Status code:');
           return;
-      }
-      var data = { word_freqs:{{word_freqs|safe}}, max_freq:{{max_freq|safe}} }
+        }
+        var data = { word_freqs:{{word_freqs|safe}}, max_freq:{{max_freq|safe}} }
 
-      console.log(data)
-      const resData = await response.json()
-      data=resData
-      console.log(data)
+// console.log(data)
+const resData = await response.json()
+data=resData
+// console.log(data)
 
-
-
-      
-      var word_freqs = data["word_freqs"];
-      max_freq = data["max_freq"];
-      fill = d3.scale.category20();
-      layout = d3.layout.cloud()
-      .size([500, 300])
-      .words(word_freqs)
-      .padding(5)
-      .rotate(0)
-      .font("Impact")
-      .fontSize(function(d) {
-        return (d.size/max_freq)*100;
-    })
-      .on("end", draw);
-
-      layout.start();
-
-      function draw(words) {
-        document.getElementById("bargraph1").innerHTML = ""
-
-
-        d3.select("#bargraph1").append("svg")
-        .attr("width", layout.size()[0])
-        .attr("height", layout.size()[1])
-        .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
-        .append("g")
-        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-        .selectAll("text")
-        .data(words)
-        .enter().append("text")
-        .style("font-size", function(d) { return d.size + "px"; })
-        .style("font-family", "Impact")
-        .style("fill", function(d, i) { return fill(i); })
-        .attr("text-anchor", "middle")
-        .attr("transform", function(d) {
-            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-        })
-        .text(function(d) { return d.text; });
-    }
+var word_freqs = data["word_freqs"];
+max_freq = data["max_freq"];
+fill = d3.scale.category20();
+layout = d3.layout.cloud()
+.size([500, 300])
+.words(word_freqs)
+.padding(5)
+.rotate(0)
+.font("Impact")
+.fontSize(function(d) {
+  return (d.size/max_freq)*100;
 })
-    
+.on("end", draw);
+
+layout.start();
+
+function draw(words) {
+  document.getElementById("bargraph1").innerHTML = ""
+
+  d3.select("#bargraph1").append("svg")
+  .attr("width", layout.size()[0])
+  .attr("height", layout.size()[1])
+  .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
+  .append("g")
+  .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+  .selectAll("text")
+  .data(words)
+  .enter().append("text")
+  .style("font-size", function(d) { return d.size + "px"; })
+  .style("font-family", "Impact")
+  .style("fill", function(d, i) { return fill(i); })
+  .attr("text-anchor", "middle")
+  .attr("transform", function(d) {
+    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+  })
+  .text(function(d) { return d.text; });
 }
+})
 
-
-</script>
+    }
+  </script>
+  <script>
+    var graphs = {{plot | safe}};
+    Plotly.plot('bargraph',graphs,{});
+  </script>
 
 
 </body>
