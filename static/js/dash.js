@@ -18,7 +18,7 @@ function draw(words) {
   d3.select("#bargraph1").append("svg")
   .attr("width", layout.size()[0])
   .attr("height", layout.size()[1])
-  .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
+  .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; -webkit-border-radius: 7px 7px 7px 7px; border: 0px solid #f0f0f5;")
   .append("g")
   .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
   .selectAll("text")
@@ -37,6 +37,8 @@ function draw(words) {
 
 var feat=[]
 var prod=[]
+
+Plotly.plot('bargraph',graphs,{});
 
 async function myFunction() {
   feat = document.getElementById("select1");
@@ -63,11 +65,14 @@ async function myFunction() {
       return console.log('Looks like there was a problem. Status code:');  
     }
 
+     
+
 
       // console.log(data)
       const resData = await response.json()
       data=resData
-      // console.log(data)
+      Plotly.newPlot('bargraph', JSON.parse(data["plot"]),{});
+      console.log(data["plot"])
 
       var word_freqs = data["word_freqs"];
       max_freq = data["max_freq"];
@@ -111,7 +116,7 @@ async function myFunction() {
 }
 
 
-Plotly.plot('bargraph',graphs,{});
+
 
 
    // console.log("sdjhvbjdvhncdfjkcmdfkcvvcdfcvhjbh")

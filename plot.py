@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import json
+import plotly.express as px
 from nltk.tokenize import word_tokenize  # to split sentences into words
 from nltk.corpus import stopwords  # to get a list of stopwords
 from collections import Counter
@@ -28,19 +29,28 @@ layout = Layout(
 		b=50,
 		t=50,))
 
-def create_plot():
-	N = 40
-	x = np.linspace(0, 1, N)
-	y = np.random.randn(N)
-	df = pd.DataFrame({'x': x, 'y': y}) # creating a sample dataframe
-	data = [
-	go.Bar(
-		x=df['x'], # assign x as the dataframe column 'x'
-		y=df['y']
-		)]
-	fig = Figure(data=data, layout=layout)
-	graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-	return graphJSON
+def create_plot(word_freqs_js):
+    data=pd.DataFrame(word_freqs_js).sort_values(by=['size'], ascending=False).reset_index(drop=True)
+    data=data.head(10)
+    fig =go.Figure([go.Bar(x=data["text"], y=data["size"])],layout=layout)
+ #    fig = px.bar(data.head(10), x='text', y='size',autosize=False,
+	# paper_bgcolor='rgba(0,0,0,0)',
+	# plot_bgcolor='rgba(0,0,0,0)',
+	# width=500,
+	# height=300,
+	# xaxis= go.layout.XAxis(linecolor = None,
+ #                          # showline=False,
+ #                          showgrid=False),
+	# yaxis= go.layout.YAxis(linecolor = None,
+	# 	showline=False,
+	# 	showgrid=False),
+	# margin=go.layout.Margin(
+	# 	l=50,
+	# 	r=50,
+	# 	b=50,
+	# 	t=50,))
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
 
 def word_cloud(feat,prod_lt):
 	df = pd.read_excel('reviews_features_sentiment.xlsx')

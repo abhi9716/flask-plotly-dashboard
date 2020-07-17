@@ -32,7 +32,8 @@
 
   <div class="ui three container">
     <div class="row">
-
+      <div class="drop_name">Product ID : </div>
+     
       <div class="drop">
         <select onchange="myFunction()" name="gender" class="ui dropdown" id="select">
           {% for ls in prod_list%}
@@ -42,6 +43,7 @@
         <script> $('#select').dropdown(); </script>
       </div>
 
+      <div class="drop_name">Product Feature : </div>
       <div class="drop">
         <select onchange="myFunction()" name="gender" class="ui dropdown" id="select1">
           {% for list in my_list%}
