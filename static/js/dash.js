@@ -1,11 +1,23 @@
 
 
 
+$('#select').change(function(){
+    
+    $('#product').html($(this).val());
+});
+
+$('#select1').change(function(){
+    
+    $('#feature').html($(this).val());
+});
+
+
+
 fill = d3.scale.category20();
 layout = d3.layout.cloud()
-.size([500, 300])
+.size([450, 250])
 .words(word_freqs)
-.padding(5)
+.padding(1)
 .rotate(0)
 .font("Impact")
 .fontSize(function(d) {
@@ -18,7 +30,7 @@ function draw(words) {
   d3.select("#bargraph1").append("svg")
   .attr("width", layout.size()[0])
   .attr("height", layout.size()[1])
-  .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; -webkit-border-radius: 7px 7px 7px 7px; border: 0px solid #f0f0f5;")
+  .attr("style", "  background: #194661; text-align: center; border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; -webkit-border-radius: 7px 7px 7px 7px; border: 0px solid #f0f0f5;")
   .append("g")
   .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
   .selectAll("text")
@@ -49,7 +61,8 @@ async function myFunction() {
     feat : feat.value,
     prod : prod.value
   };
-  console.log(entry)
+ 
+
   const response = await fetch(`${window.origin}/bar`,{
     method: "POST",
     credentials: "include",
@@ -68,19 +81,25 @@ async function myFunction() {
      
 
 
-      // console.log(data)
+
       const resData = await response.json()
       data=resData
+
+      console.log(data["feat_count"]) 
+
+      $('#prod_count').html((data["prod_count"]));
+      $('#feat_count').html((data["feat_count"]));
+
       Plotly.newPlot('bargraph', JSON.parse(data["plot"]),{});
-      console.log(data["plot"])
+    
 
       var word_freqs = data["word_freqs"];
       max_freq = data["max_freq"];
       fill = d3.scale.category20();
       layout = d3.layout.cloud()
-      .size([500, 300])
+      .size([450, 250])
       .words(word_freqs)
-      .padding(5)
+      .padding(2)
       .rotate(0)
       .font("Impact")
       .fontSize(function(d) {
@@ -96,12 +115,13 @@ async function myFunction() {
         d3.select("#bargraph1").append("svg")
         .attr("width", layout.size()[0])
         .attr("height", layout.size()[1])
-        .attr("style", "display: block; margin-left: auto; margin-right: auto; background: #194661; text-align: center; border-radius: 37px 37px 37px 37px; -moz-border-radius: 37px 37px 37px 37px; -webkit-border-radius: 37px 37px 37px 37px; border: 0px solid #000000;")
+        .attr("style", " background: #194661; text-align: center; border-radius: 7px 7px 7px 7px; -moz-border-radius: 7px 7px 7px 7px; -webkit-border-radius: 7px 7px 7px 7px; border: 0px solid #f0f0f5;")
         .append("g")
         .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
         .selectAll("text")
         .data(words)
         .enter().append("text")
+        
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact")
         .style("fill", function(d, i) { return fill(i); })

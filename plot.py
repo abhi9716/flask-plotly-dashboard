@@ -15,8 +15,8 @@ layout = Layout(
 	autosize=False,
 	paper_bgcolor='rgba(0,0,0,0)',
 	plot_bgcolor='rgba(0,0,0,0)',
-	width=500,
-	height=300,
+	width=450,
+	height=250,
 	xaxis= go.layout.XAxis(linecolor = None,
                           # showline=False,
                           showgrid=False),
@@ -33,27 +33,13 @@ def create_plot(word_freqs_js):
     data=pd.DataFrame(word_freqs_js).sort_values(by=['size'], ascending=False).reset_index(drop=True)
     data=data.head(10)
     fig =go.Figure([go.Bar(x=data["text"], y=data["size"])],layout=layout)
- #    fig = px.bar(data.head(10), x='text', y='size',autosize=False,
-	# paper_bgcolor='rgba(0,0,0,0)',
-	# plot_bgcolor='rgba(0,0,0,0)',
-	# width=500,
-	# height=300,
-	# xaxis= go.layout.XAxis(linecolor = None,
- #                          # showline=False,
- #                          showgrid=False),
-	# yaxis= go.layout.YAxis(linecolor = None,
-	# 	showline=False,
-	# 	showgrid=False),
-	# margin=go.layout.Margin(
-	# 	l=50,
-	# 	r=50,
-	# 	b=50,
-	# 	t=50,))
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
 def word_cloud(feat,prod_lt):
 	df = pd.read_excel('reviews_features_sentiment.xlsx')
+	prod_count = len(df.loc[(df["PUID"] == (prod_lt))])
+	feat_count =  len(df.loc[(df["PUID"] == (prod_lt)) & (df["Feature"] == (feat))])
 	df = df.loc[(df["PUID"] == (prod_lt)) & (df["Feature"] == (feat))]
 	reviews=df["Review_amazon"].str.lower()
 	sentences = ""
@@ -75,7 +61,7 @@ def word_cloud(feat,prod_lt):
 		temp = {"text": key, "size": value}
 		word_freqs_js.append(temp)
 	max_freq = max(word_freqs.values())
-	return  word_freqs_js, max_freq
+	return  word_freqs_js, max_freq, prod_count, feat_count
 
 def feature():
 	df = pd.read_excel('reviews_features_sentiment.xlsx').dropna(axis=0)

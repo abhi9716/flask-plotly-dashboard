@@ -30,8 +30,9 @@
   </div>
 
 
-  <div class="ui three container">
-    <div class="row">
+  <div class="ui fluid container">
+    <div class="row" style="padding-left: 525px;">
+      
       <div class="drop_name">Product ID : </div>
      
       <div class="drop">
@@ -53,21 +54,79 @@
         <script> $('#select1').dropdown(); </script>
       </div>
     </div>   
+   
   </div>
 
 
-  <div class="ui fluid container">
+  <div class="ui fluid container" >
     <div class="row">
-      <div class="box">
-        <div class="chart" id="bargraph1">
-        </div>
-      </div>
-      <div class="box">
-        <div class="chart" id="bargraph">
-        </div>
-      </div>
+      <div class="boxes">
+    <div class="graphs_header">
+    <h3 class="head">Word Cloud based on Reveiws</h3>
+  </div>
+  <div class="row3" id="bargraph1">
+</div>
+  </div>
+      <div class="boxes">
+    <div class="graphs_header">
+    <h3 class="head">Top 10 tags in Reviews</h3>
+  </div>
+  <div class="row3" id="bargraph">
+</div>
+  </div>
+
+<div class="boxes1">
+    <div class="graphs_header1">
+    <h3 class="head">Review Count</h3>
+  </div>
+  <div class="row4">
+    
+ <div class= "count">
+    
+      <div class="box1">
+      <div class="ui red link card">
+  <div class="content" style="height: 70px;">
+    <div class="center aligned header" id="product">{{prod_list[0]}}</div>
+    <div class="center aligned description" id="prod_count">
+      {{prod_count}}
     </div>
   </div>
+  <div class="extra content" style="height: 30px; padding: 0;">
+    <div class="center aligned author" style="height: 30px; padding-top: 3px;">
+      <img class="ui center aligned header" > Product Wise
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="box1">
+      <div class="ui green link card">
+  <div class="content" style="height: 70px;">
+    <div class="center aligned header" id="feature">{{my_list[0]}}</div>
+    <div class="center aligned description" id="feat_count">
+      {{feat_count}}
+    </div>
+  </div>
+  <div class="extra content" style="height: 30px; padding: 0;">
+    <div class="center aligned author" style="height: 30px; padding-top: 3px;">
+      <img class="ui center aligned  header"> Feature Wise
+    </div>
+  </div>
+</div>
+</div>
+
+    </div>
+
+</div>
+  </div>
+
+     
+    </div>
+
+  </div>
+
+
+  
 
 
   <script>
