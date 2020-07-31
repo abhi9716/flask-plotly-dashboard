@@ -2,7 +2,6 @@ import plotly
 import plotly.graph_objs as go
 from wordcloud import WordCloud, STOPWORDS
 from plotly.graph_objs import *
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import json
